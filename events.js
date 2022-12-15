@@ -3,8 +3,17 @@ window.onload = () => {
 
   // Usando questo, non avremo mai il potenziale problema che selezionando un tag, questo non esista ancora (null)
   const listContainer = document.getElementById("list-items")
-  listContainer.innerHTML += "<div class='list-item'>Latte 🍎</div>"
-  listContainer.innerHTML += "<div class='list-item'>Pane 🥖</div>"
+  listContainer.innerHTML +=
+    "<div class='list-item' onclick='aggiungiClasseSelected(event)'>Latte 🥛</div>"
+  listContainer.innerHTML +=
+    "<div class='list-item' onclick='aggiungiClasseSelected(event)'>Pane 🥖</div>"
+}
+
+const aggiungiClasseSelected = event => {
+  // Quando un elemento della lista spesa viene cliccato, toggliamo la classe "selected" a quell'elemento
+  const elementoCliccato = event.target
+
+  elementoCliccato.classList.toggle("selected")
 }
 
 const gestisciKeyUpSuInput = event => {
@@ -28,6 +37,9 @@ const gestisciKeyUpSuInput = event => {
       // 2.3 Aggiungo del testo al nuovo div
       newDiv.innerText = valoreInputField
 
+      // 2.4 Aggiungo onclick al nuovo div
+      newDiv.onclick = aggiungiClasseSelected
+
       // 3. Devo appendere il nuovo div al div con id "list-items"
       document.getElementById("list-items").appendChild(newDiv)
 
@@ -36,3 +48,32 @@ const gestisciKeyUpSuInput = event => {
     }
   }
 }
+
+const eliminaSelezionati = e => {
+  /*   if (e.key === "Backspace") {
+    console.log("CLICKED!") */
+  // Devo selezionare tutti gli elementi che hanno la classe selected e poi eliminarli dal DOM
+
+  // 0. Seleziono il padre di tutti i list-item
+  const list = document.getElementById("list-items")
+
+  // 1. Uso un selector per ottenere la lista elementi con classe selected
+  const elementiSelezionati = document.querySelectorAll(".selected")
+  console.log("Elementi selezionati con query selector all: ", elementiSelezionati)
+
+  const elementiSelezionati2 = document.getElementsByClassName("selected")
+  console.log("Elementi selezionati con get by classname: ", elementiSelezionati2)
+
+  // 2. Vado a rimuovere gli elementi iterando la lista ottenuta prima
+  elementiSelezionati.forEach(element => list.removeChild(element))
+  // const arr = Array.from(elementiSelezionati2)
+  /*   console.log("Elementi selezionati con query selector all: ", elementiSelezionati)
+  console.log("Elementi selezionati con get by classname: ", elementiSelezionati2)
+  for (let index = 0; index < elementiSelezionati2.length; index) {
+    const element = elementiSelezionati2[index]
+    list.removeChild(element)
+  } */
+  /* } */
+}
+
+// window.addEventListener("keydown", eliminaSelezionati)
